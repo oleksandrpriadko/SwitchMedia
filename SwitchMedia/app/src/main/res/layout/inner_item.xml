@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/colorItemInnerBack">
+
+    <ImageView
+        android:id="@+id/imageView_poster"
+        android:layout_width="@dimen/poster_width"
+        android:layout_height="@dimen/poster_height"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@null" />
+
+    <ImageView
+        android:id="@+id/imageView_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/imageView_poster"
+        android:layout_alignLeft="@id/imageView_poster"
+        android:layout_alignRight="@id/imageView_poster"
+        android:layout_alignTop="@id/imageView_poster"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_play_circle_outline_white_24dp"
+        tools:ignore="RtlHardcoded" />
+
+    <TextView
+        android:id="@+id/textView_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/imageView_poster"
+        android:layout_alignRight="@id/imageView_poster"
+        android:layout_below="@id/imageView_poster"
+        android:layout_marginTop="@dimen/margin_item_inner"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/txt_s_title"
+        tools:ignore="RtlHardcoded"
+        tools:text="Item Name" />
+</RelativeLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="poster_width">140dp</dimen>
+    <dimen name="poster_height">78.4dp</dimen>
+    <dimen name="poster_channel_width">88dp</dimen>
+    <dimen name="poster_channel_height">50dp</dimen>
+    <dimen name="txt_s_title">14sp</dimen>
+    <dimen name="txt_s_section">14sp</dimen>
+    <dimen name="txt_s_item_detail">28sp</dimen>
+    <dimen name="margin_item_inner">14dp</dimen>
+    <dimen name="margin_item_main">21dp</dimen>
+</resources>

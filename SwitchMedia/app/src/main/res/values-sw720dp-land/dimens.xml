@@ -1,0 +1,11 @@
+<resources>
+    <dimen name="poster_width">320dp</dimen>
+    <dimen name="poster_height">180dp</dimen>
+    <dimen name="poster_channel_width">200dp</dimen>
+    <dimen name="poster_channel_height">112dp</dimen>
+    <dimen name="txt_s_title">32sp</dimen>
+    <dimen name="txt_s_section">32sp</dimen>
+    <dimen name="txt_s_item_detail">64sp</dimen>
+    <dimen name="margin_item_inner">32dp</dimen>
+    <dimen name="margin_item_main">48dp</dimen>
+</resources>

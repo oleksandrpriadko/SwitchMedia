@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">SwitchMedia</string>
+
+    <string name="section_channels_name">Channels</string>
+    <string name="section_cont_watching_name">Continue Watching</string>
+    <string name="section_highlights_name">Highlights</string>
+    <string name="tab_home_name">Home</string>
+    <string name="tab_livetv_name">Live TV</string>
+    <string name="tab_anytime_name">Anytime</string>
+    <string name="section_kids_name">Kids</string>
+    <string name="tab_kids_name">Kids</string>
+    <string name="tab_player_name">Player</string>
+</resources>
