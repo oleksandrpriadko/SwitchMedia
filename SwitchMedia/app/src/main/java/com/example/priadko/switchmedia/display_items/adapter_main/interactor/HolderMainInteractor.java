@@ -16,7 +16,7 @@ public class HolderMainInteractor implements IHolderMainInteractor {
     @Override
     public void getData(String[][] data, int position, IDataPreparedMain listener) {
         String[][] itemsForSection;
-        switch (position + 1) {
+        switch (position) {
             case VIEW_TYPE_CHANNELS:
                 listener.sectionNameGot(R.string.section_channels_name);
                 itemsForSection = Arrays.copyOfRange(data, 0, data.length / COUNT);
@@ -26,20 +26,20 @@ public class HolderMainInteractor implements IHolderMainInteractor {
                 listener.sectionNameGot(R.string.section_cont_watching_name);
                 itemsForSection = Arrays.copyOfRange(data,
                         data.length / COUNT,
-                        (data.length / COUNT) * VIEW_TYPE_CONT_WATCHING);
+                        (data.length / COUNT) * VIEW_TYPE_HIGHLIGHTS);
                 listener.dataRecViewPrepared(Pair.create(itemsForSection, false));
                 break;
             case VIEW_TYPE_HIGHLIGHTS:
                 listener.sectionNameGot(R.string.section_highlights_name);
                 itemsForSection = Arrays.copyOfRange(data,
-                        (data.length / COUNT) * VIEW_TYPE_CONT_WATCHING,
-                        data.length / COUNT * VIEW_TYPE_HIGHLIGHTS);
+                        (data.length / COUNT) * VIEW_TYPE_HIGHLIGHTS,
+                        data.length / COUNT * VIEW_TYPE_KIDS);
                 listener.dataRecViewPrepared(Pair.create(itemsForSection, false));
                 break;
             case VIEW_TYPE_KIDS:
                 listener.sectionNameGot(R.string.section_kids_name);
                 itemsForSection = Arrays.copyOfRange(data,
-                        (data.length / COUNT) * VIEW_TYPE_HIGHLIGHTS,
+                        (data.length / COUNT) * VIEW_TYPE_KIDS,
                         data.length);
                 listener.dataRecViewPrepared(Pair.create(itemsForSection, false));
                 break;

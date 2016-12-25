@@ -6,7 +6,7 @@
     android:background="@color/colorItemDetailsBack"
     android:id="@+id/layout_details"
     android:layout_centerInParent="true"
-    android:padding="@dimen/margin_item_main"
+    android:paddingTop="@dimen/margin_item_main"
     android:clickable="true">
 
     <TextView
