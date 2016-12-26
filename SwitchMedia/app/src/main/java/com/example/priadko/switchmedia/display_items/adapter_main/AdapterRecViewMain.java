@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.example.priadko.switchmedia.R;
 import com.example.priadko.switchmedia.display_items.adapter_inner.AdapterRecViewInner;
 import com.example.priadko.switchmedia.display_items.adapter_main.presenter.HolderMainPresenter;
-import com.example.priadko.switchmedia.home_screen.presenter.FragHomePresenter;
 import com.example.priadko.switchmedia.utils.recycler_view.ItemDecorLinHorizontal;
 
 /**
@@ -26,12 +25,12 @@ public class AdapterRecViewMain extends RecyclerView.Adapter<AdapterRecViewMain.
 
     private String[][] arrAll;
     private LayoutInflater inflater;
-    private FragHomePresenter presenter;
+    private AdapterRecViewInner.ItemListener itemListener;
 
     public AdapterRecViewMain(@NonNull String[][] arrAll,
-                              @NonNull FragHomePresenter presenter) {
+                              @NonNull AdapterRecViewInner.ItemListener itemListener) {
         this.arrAll = arrAll;
-        this.presenter = presenter;
+        this.itemListener = itemListener;
     }
 
     @Override
@@ -52,9 +51,10 @@ public class AdapterRecViewMain extends RecyclerView.Adapter<AdapterRecViewMain.
         return arrAll != null && arrAll.length > SECTIONS_COUNT - 1 ? SECTIONS_COUNT : 0;
     }
 
-    public void setData(@NonNull String[][] data, @NonNull FragHomePresenter presenter){
+    public void setData(@NonNull String[][] data,
+                        @NonNull AdapterRecViewInner.ItemListener itemListener) {
         arrAll = data;
-        this.presenter = presenter;
+        this.itemListener = itemListener;
         notifyDataSetChanged();
     }
 
@@ -92,7 +92,7 @@ public class AdapterRecViewMain extends RecyclerView.Adapter<AdapterRecViewMain.
         @Override
         public void updateRecyclerView(Pair<String[][], Boolean> data) {
             if (adapterRecViewInner == null) {
-                adapterRecViewInner = new AdapterRecViewInner(presenter);
+                adapterRecViewInner = new AdapterRecViewInner(itemListener);
             }
             recyclerView.setAdapter(adapterRecViewInner);
             adapterRecViewInner.setData(data.first, data.second);

@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.example.priadko.switchmedia.R;
 import com.example.priadko.switchmedia.display_items.adapter_inner.presenter.HolderInnerPresenter;
-import com.example.priadko.switchmedia.home_screen.presenter.FragHomePresenter;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -22,11 +21,11 @@ public class AdapterRecViewInner extends RecyclerView.Adapter<AdapterRecViewInne
 
     private String[][] data;
     private LayoutInflater inflater;
-    private FragHomePresenter presenter;
+    private ItemListener itemListener;
     private boolean forChannel = false;
 
-    public AdapterRecViewInner(@NonNull FragHomePresenter fragHomePresenter) {
-        presenter = fragHomePresenter;
+    public AdapterRecViewInner(@NonNull ItemListener itemListener) {
+        this.itemListener = itemListener;
     }
 
     @Override
@@ -100,7 +99,7 @@ public class AdapterRecViewInner extends RecyclerView.Adapter<AdapterRecViewInne
 
         @Override
         public void itemClick(String title, String url) {
-            presenter.itemClicked(title, url);
+            if (itemListener != null) itemListener.itemClicked(title, url);
         }
 
         private Picasso getPicasso() {
@@ -109,5 +108,12 @@ public class AdapterRecViewInner extends RecyclerView.Adapter<AdapterRecViewInne
             picasso.setLoggingEnabled(true);
             return picasso;
         }
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //  ITEM LISTENER
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    public interface ItemListener {
+        void itemClicked(String title, String url);
     }
 }

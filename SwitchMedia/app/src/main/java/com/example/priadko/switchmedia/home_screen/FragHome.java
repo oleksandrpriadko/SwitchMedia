@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.priadko.switchmedia.FragBaseAbstract;
 import com.example.priadko.switchmedia.R;
+import com.example.priadko.switchmedia.display_items.adapter_inner.AdapterRecViewInner;
 import com.example.priadko.switchmedia.display_items.adapter_main.AdapterRecViewMain;
 import com.example.priadko.switchmedia.home_screen.presenter.FragHomePresenter;
 import com.example.priadko.switchmedia.utils.recycler_view.ItemDecorLinVertical;
@@ -132,9 +133,9 @@ public class FragHome extends FragBaseAbstract implements IFragHomeView {
     @Override
     public void dataLoaded(String[][] data) {
         if (adapterRecViewMain == null) {
-            adapterRecViewMain = new AdapterRecViewMain(data, presenter);
+            adapterRecViewMain = new AdapterRecViewMain(data, itemListener);
         } else {
-            adapterRecViewMain.setData(data, presenter);
+            adapterRecViewMain.setData(data, itemListener);
         }
         recyclerView.setAdapter(adapterRecViewMain);
         showLoading(false);
@@ -175,4 +176,14 @@ public class FragHome extends FragBaseAbstract implements IFragHomeView {
                 .error(R.drawable.ic_error_outline_white_24dp)
                 .into(((ImageView) layoutDetails.findViewById(R.id.imageView_poster)));
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    //  LISTENERS
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    private AdapterRecViewInner.ItemListener itemListener = new AdapterRecViewInner.ItemListener() {
+        @Override
+        public void itemClicked(String title, String url) {
+            presenter.itemClicked(title, url);
+        }
+    };
 }
