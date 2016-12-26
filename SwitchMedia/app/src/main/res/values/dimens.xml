@@ -1,11 +1,11 @@
 <resources>
-    <dimen name="poster_width">120dp</dimen>
-    <dimen name="poster_height">67dp</dimen>
-    <dimen name="poster_channel_width">75dp</dimen>
-    <dimen name="poster_channel_height">42dp</dimen>
-    <dimen name="txt_s_title">12sp</dimen>
-    <dimen name="txt_s_section">12sp</dimen>
-    <dimen name="txt_s_item_detail">24sp</dimen>
-    <dimen name="margin_item_inner">12dp</dimen>
-    <dimen name="margin_item_main">18dp</dimen>
+    <dimen name="poster_width">135dp</dimen>
+    <dimen name="poster_height">75dp</dimen>
+    <dimen name="poster_channel_width">84dp</dimen>
+    <dimen name="poster_channel_height">47dp</dimen>
+    <dimen name="txt_s_title">14sp</dimen>
+    <dimen name="txt_s_section">14sp</dimen>
+    <dimen name="txt_s_item_detail">28sp</dimen>
+    <dimen name="margin_item_inner">14dp</dimen>
+    <dimen name="margin_item_main">21dp</dimen>
 </resources>
