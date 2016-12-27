@@ -17,24 +17,26 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
+import static com.example.priadko.switchmedia.Constants.INDEX_TITLE;
+import static com.example.priadko.switchmedia.Constants.INDEX_URL;
+import static com.example.priadko.switchmedia.Constants.INNER_ITEM_COUNT;
+import static com.example.priadko.switchmedia.Constants.ITEM_COUNT;
+
 /**
  * SwitchMedia
  * Oleksandr Priadko
  */
 
 class ExecutorHandler extends AsyncTask<Void, Void, String[][]> {
+    //link from document.
     private static final String BASE_URL = "http://www.colourlovers.com/api/patterns/";
     private static final String TAG = "ExecutorAsync";
-    private static final int ITEM_COUNT = 40;
-    private static final int INNER_ITEM_COUNT = 2;
-    private static final int TITLE = 0;
-    private static final int URL = 1;
-    private static final int TERMINATION_PERIOD = 100;
+    // in millisecond
+    private static final int TERMINATION_PERIOD = 500;
 
     private LoadDataListener listener;
     private ExecutorService pool;
     private Api apiService;
-    private String[][] data;
 
     ExecutorHandler(LoadDataListener listener) {
         this.listener = listener;
@@ -55,10 +57,6 @@ class ExecutorHandler extends AsyncTask<Void, Void, String[][]> {
         apiService = retrofit.create(Api.class);
     }
 
-    private boolean isDataNull() {
-        return data == null;
-    }
-
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -67,37 +65,39 @@ class ExecutorHandler extends AsyncTask<Void, Void, String[][]> {
 
     @Override
     protected String[][] doInBackground(Void... voids) {
-        data = new String[ITEM_COUNT][INNER_ITEM_COUNT];
+        //creates new data.
+        // as request to colorlovers.com always returns random item - no sense for caching responses
+        String[][] data = new String[ITEM_COUNT][INNER_ITEM_COUNT];
         pool = Executors.newFixedThreadPool(data.length);
+        //execute runnable in ExecutorService
         for (int i = 0; i < ITEM_COUNT; ++i) {
             pool.execute(new SingleRequest(data, i, apiService));
         }
         Log.i(TAG, "started");
         pool.shutdown();
+        //check if all runnable is finished
+        //NOTE - do not move from AsyncTask's background. Blocks UI thread
         while (!pool.isTerminated()) {
             try {
                 if (!pool.awaitTermination(TERMINATION_PERIOD, TimeUnit.MILLISECONDS)) {
                     Log.i(TAG, "processing");
                 }
-            } catch (InterruptedException ignore) {
-            }
+            } catch (InterruptedException ignore) {}
         }
+        //return filled array to onPostExecute
         return data;
     }
 
     @Override
     protected void onPostExecute(String[][] data) {
         super.onPostExecute(data);
-        if (isDataNull()) {
-            listener.loadingDataFailed();
-        } else {
-            listener.loaded(data);
-        }
+        listener.loaded(data);
         Log.i(TAG, "done");
     }
 
     @Override
     protected void onCancelled(String[][] strings) {
+        //if canceled - shutdown immediately
         pool.shutdownNow();
         listener = null;
         super.onCancelled(strings);
@@ -106,8 +106,12 @@ class ExecutorHandler extends AsyncTask<Void, Void, String[][]> {
         Log.i(TAG, pool.isTerminated() + " isTerminated");
     }
 
+    /**
+     * Performs request to colorlovers
+     */
     private class SingleRequest implements Runnable {
         private String[][] data;
+        //where to put data from response
         private int index;
         private Api api;
 
@@ -119,11 +123,13 @@ class ExecutorHandler extends AsyncTask<Void, Void, String[][]> {
 
         @Override
         public void run() {
+            //synchronous request to colorlovers
             Call<PatternModel> call = api.getPattern();
             try {
+                //if something will be wrong - title and url will not be set
                 PatternItemModel pattern = call.execute().body().getPattern();
-                data[index][TITLE] = pattern.getTitle();
-                data[index][URL] = pattern.getImageUrl();
+                data[index][INDEX_TITLE] = pattern.getTitle();
+                data[index][INDEX_URL] = pattern.getImageUrl();
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.i(TAG, "data " + index + " failed");

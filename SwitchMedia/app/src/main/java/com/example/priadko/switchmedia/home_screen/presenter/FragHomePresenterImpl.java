@@ -1,7 +1,7 @@
 package com.example.priadko.switchmedia.home_screen.presenter;
 
 import com.example.priadko.switchmedia.home_screen.IFragHomeView;
-import com.example.priadko.switchmedia.home_screen.interactor.FragHomeInteractor;
+import com.example.priadko.switchmedia.home_screen.interactor.FragHomeInteractorImpl;
 import com.example.priadko.switchmedia.home_screen.interactor.LoadDataListener;
 
 /**
@@ -9,23 +9,25 @@ import com.example.priadko.switchmedia.home_screen.interactor.LoadDataListener;
  * Oleksandr Priadko
  */
 
-public class FragHomePresenter implements IFragHomePresenter, LoadDataListener {
+public class FragHomePresenterImpl implements IFragHomePresenter, LoadDataListener {
 
-    private FragHomeInteractor interactor;
+    private FragHomeInteractorImpl interactor;
     private IFragHomeView view;
 
-    public FragHomePresenter() {
-        interactor = new FragHomeInteractor();
+    public FragHomePresenterImpl() {
+        interactor = new FragHomeInteractorImpl();
     }
 
+    @Override
     public void bind(IFragHomeView view) {
         this.view = view;
         if (interactor == null) {
-            interactor = new FragHomeInteractor();
+            interactor = new FragHomeInteractorImpl();
         }
         loadData();
     }
 
+    @Override
     public void unBind() {
         view = null;
         if (interactor != null) {
@@ -34,27 +36,21 @@ public class FragHomePresenter implements IFragHomePresenter, LoadDataListener {
         }
     }
 
-    /**
-     * Try load data
-     */
     @Override
     public void loadData() {
         interactor.loadData(this);
     }
 
-    /**
-     * ItemClicked
-     */
     @Override
     public void itemClicked(String title, String url) {
-        view.showHideDetailScreen(true);
+        view.showDetailScreen();
         view.setDetailScreenTitle(title);
         view.setDetailScreenImage(url);
     }
 
     @Override
     public void clickedOkDetailScreen() {
-        view.showHideDetailScreen(false);
+        view.hideDetailScreen();
     }
 
     /**
@@ -71,13 +67,5 @@ public class FragHomePresenter implements IFragHomePresenter, LoadDataListener {
     @Override
     public void loaded(String[][] data) {
         view.dataLoaded(data);
-    }
-
-    /**
-     * Loading failed
-     */
-    @Override
-    public void loadingDataFailed() {
-        view.loadingFailed();
     }
 }

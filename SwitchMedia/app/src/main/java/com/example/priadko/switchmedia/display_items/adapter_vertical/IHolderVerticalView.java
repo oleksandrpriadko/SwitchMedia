@@ -1,4 +1,4 @@
-package com.example.priadko.switchmedia.display_items.adapter_main;
+package com.example.priadko.switchmedia.display_items.adapter_vertical;
 
 import android.support.annotation.StringRes;
 import android.util.Pair;
@@ -8,7 +8,7 @@ import android.util.Pair;
  * Oleksandr Priadko
  */
 
-public interface IHolderMainView {
+public interface IHolderVerticalView {
     void updateRecyclerView(Pair<String[][], Boolean> data);
 
     void setSectionName(@StringRes int sectionName);

@@ -1,4 +1,4 @@
-package com.example.priadko.switchmedia.display_items.adapter_inner;
+package com.example.priadko.switchmedia.display_items.adapter_horizontal;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,27 +9,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.priadko.switchmedia.R;
-import com.example.priadko.switchmedia.display_items.adapter_inner.presenter.HolderInnerPresenter;
 import com.squareup.picasso.Picasso;
+
+import static com.example.priadko.switchmedia.Constants.INDEX_TITLE;
+import static com.example.priadko.switchmedia.Constants.INDEX_URL;
 
 /**
  * SwitchMedia
  * Oleksandr Priadko
  */
 
-public class AdapterRecViewInner extends RecyclerView.Adapter<AdapterRecViewInner.HolderInner> {
+public class AdapterRecViewHorizontal extends RecyclerView.Adapter<AdapterRecViewHorizontal.HolderHorizontal> {
 
     private String[][] data;
     private LayoutInflater inflater;
     private ItemListener itemListener;
     private boolean forChannel = false;
 
-    public AdapterRecViewInner(@NonNull ItemListener itemListener) {
+    public AdapterRecViewHorizontal(@NonNull ItemListener itemListener) {
         this.itemListener = itemListener;
     }
 
     @Override
-    public HolderInner onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HolderHorizontal onCreateViewHolder(ViewGroup parent, int viewType) {
         if (inflater == null) {
             inflater = LayoutInflater.from(parent.getContext());
         }
@@ -37,12 +39,13 @@ public class AdapterRecViewInner extends RecyclerView.Adapter<AdapterRecViewInne
                 forChannel ? R.layout.inner_item_channels : R.layout.inner_item,
                 parent,
                 false);
-        return new HolderInner(itemView);
+        return new HolderHorizontal(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final HolderInner holder, int position) {
-        holder.bind(data);
+    public void onBindViewHolder(final HolderHorizontal holder, int position) {
+        holder.setTitle(data[position][INDEX_TITLE]);
+        holder.loadPoster(data[position][INDEX_URL]);
     }
 
     @Override
@@ -59,13 +62,12 @@ public class AdapterRecViewInner extends RecyclerView.Adapter<AdapterRecViewInne
     //////////////////////////////////////////////////////////////////////////////////////////////
     //  VIEW HOLDER
     //////////////////////////////////////////////////////////////////////////////////////////////
-    class HolderInner extends RecyclerView.ViewHolder implements IHolderInnerView {
+    class HolderHorizontal extends RecyclerView.ViewHolder {
         private TextView titleText;
         private ImageView poster;
         private ImageView playImage;
-        private HolderInnerPresenter presenterHolder;
 
-        HolderInner(View itemView) {
+        HolderHorizontal(View itemView) {
             super(itemView);
             titleText = ((TextView) itemView.findViewById(R.id.textView_title));
             poster = ((ImageView) itemView.findViewById(R.id.imageView_poster));
@@ -73,18 +75,14 @@ public class AdapterRecViewInner extends RecyclerView.Adapter<AdapterRecViewInne
             playImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    presenterHolder.itemClicked(data, getAdapterPosition());
+                    String title = data[getAdapterPosition()][INDEX_TITLE];
+                    String url = data[getAdapterPosition()][INDEX_URL];
+                    itemListener.itemClicked(title, url);
                 }
             });
-            presenterHolder = new HolderInnerPresenter();
         }
 
-        private void bind(String[][] data) {
-            presenterHolder.bind(data, getAdapterPosition(), this);
-        }
-
-        @Override
-        public void loadPoster(String url) {
+        void loadPoster(String url) {
             getPicasso()
                     .load(url)
                     .fit()
@@ -92,14 +90,8 @@ public class AdapterRecViewInner extends RecyclerView.Adapter<AdapterRecViewInne
                     .into(poster);
         }
 
-        @Override
-        public void setTitle(String title) {
+        void setTitle(String title) {
             titleText.setText(title);
-        }
-
-        @Override
-        public void itemClick(String title, String url) {
-            if (itemListener != null) itemListener.itemClicked(title, url);
         }
 
         private Picasso getPicasso() {

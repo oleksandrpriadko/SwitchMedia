@@ -1,4 +1,4 @@
-package com.example.priadko.switchmedia.display_items.adapter_main.interactor;
+package com.example.priadko.switchmedia.display_items.adapter_vertical.interactor;
 
 import android.support.annotation.StringRes;
 import android.util.Pair;
@@ -8,7 +8,7 @@ import android.util.Pair;
  * Oleksandr Priadko
  */
 
-public interface IDataPreparedMain {
+public interface IDataPreparedVertical {
     void dataRecViewPrepared(Pair<String[][], Boolean> data);
 
     void sectionNameGot(@StringRes int sectionName);

@@ -19,3 +19,4 @@ SwitchMedia. Android Application Technical Test Carousels
 * compile 'com.android.support:appcompat-v7:25.0.1' and compile 'com.android.support:design:25.0.1' used for support MaterialDesign on platforms < v21.
 * If you want to see usage of additional libraries - contact me and will use them.
 * If you would like to see different behaviour/appearance of UI elements - contact me and I will implement it.
+* Tested on Nexus 5(API 24), Nexus 6(API 25), emulator API 25(Nexus 4, Nexus 6P, Nexus 5X, Nexus Pixel C, Nexus Pixel, Nexus Pixel XL, Nexus 9, Nexus 10), Nexus 5((API 16).

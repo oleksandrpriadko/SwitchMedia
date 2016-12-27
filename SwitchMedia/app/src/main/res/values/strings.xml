@@ -8,6 +8,7 @@
     <string name="tab_livetv_name">Live TV</string>
     <string name="tab_anytime_name">Anytime</string>
     <string name="section_kids_name">Kids</string>
+    <string name="section_unknown">@android:string/unknownName</string>
     <string name="tab_kids_name">Kids</string>
     <string name="tab_player_name">Player</string>
 </resources>

@@ -11,9 +11,10 @@ import android.widget.TextView;
 
 import com.example.priadko.switchmedia.FragBaseAbstract;
 import com.example.priadko.switchmedia.R;
-import com.example.priadko.switchmedia.display_items.adapter_inner.AdapterRecViewInner;
-import com.example.priadko.switchmedia.display_items.adapter_main.AdapterRecViewMain;
-import com.example.priadko.switchmedia.home_screen.presenter.FragHomePresenter;
+import com.example.priadko.switchmedia.display_items.adapter_horizontal.AdapterRecViewHorizontal;
+import com.example.priadko.switchmedia.display_items.adapter_vertical.AdapterRecViewVertical;
+import com.example.priadko.switchmedia.home_screen.presenter.FragHomePresenterImpl;
+import com.example.priadko.switchmedia.home_screen.presenter.IFragHomePresenter;
 import com.example.priadko.switchmedia.utils.recycler_view.ItemDecorLinVertical;
 import com.squareup.picasso.Picasso;
 
@@ -24,9 +25,9 @@ import com.squareup.picasso.Picasso;
 
 public class FragHome extends FragBaseAbstract implements IFragHomeView {
 
-    private FragHomePresenter presenter;
+    private IFragHomePresenter presenter;
     private RecyclerView recyclerView;
-    private AdapterRecViewMain adapterRecViewMain;
+    private AdapterRecViewVertical adapterRecViewVertical;
     private FrameLayout layoutLoading;
     private SwipeRefreshLayout refreshLayout;
     private RelativeLayout layoutDetails;
@@ -56,7 +57,7 @@ public class FragHome extends FragBaseAbstract implements IFragHomeView {
         initRecView(rootView);
         initPicasso();
         initDetails(rootView);
-        presenter = new FragHomePresenter();
+        presenter = new FragHomePresenterImpl();
     }
 
     private void initRefresh(View rootView) {
@@ -123,7 +124,7 @@ public class FragHome extends FragBaseAbstract implements IFragHomeView {
         layoutLoading.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
-    private void showDetails(boolean show) {
+    private void showHideDetails(boolean show) {
         layoutDetails.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
@@ -132,12 +133,12 @@ public class FragHome extends FragBaseAbstract implements IFragHomeView {
      */
     @Override
     public void dataLoaded(String[][] data) {
-        if (adapterRecViewMain == null) {
-            adapterRecViewMain = new AdapterRecViewMain(data, itemListener);
+        if (adapterRecViewVertical == null) {
+            adapterRecViewVertical = new AdapterRecViewVertical(data, itemListener);
         } else {
-            adapterRecViewMain.setData(data, itemListener);
+            adapterRecViewVertical.setData(data, itemListener);
         }
-        recyclerView.setAdapter(adapterRecViewMain);
+        recyclerView.setAdapter(adapterRecViewVertical);
         showLoading(false);
         refreshLayout.setRefreshing(false);
     }
@@ -150,18 +151,14 @@ public class FragHome extends FragBaseAbstract implements IFragHomeView {
         showLoading(true);
     }
 
-    /**
-     * Loading failed
-     */
     @Override
-    public void loadingFailed() {
-        showLoading(false);
-        refreshLayout.setRefreshing(false);
+    public void showDetailScreen() {
+        showHideDetails(true);
     }
 
     @Override
-    public void showHideDetailScreen(boolean show) {
-        showDetails(show);
+    public void hideDetailScreen() {
+        showHideDetails(false);
     }
 
     @Override
@@ -180,7 +177,7 @@ public class FragHome extends FragBaseAbstract implements IFragHomeView {
     ///////////////////////////////////////////////////////////////////////////////////////////////
     //  LISTENERS
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    private AdapterRecViewInner.ItemListener itemListener = new AdapterRecViewInner.ItemListener() {
+    private AdapterRecViewHorizontal.ItemListener itemListener = new AdapterRecViewHorizontal.ItemListener() {
         @Override
         public void itemClicked(String title, String url) {
             presenter.itemClicked(title, url);

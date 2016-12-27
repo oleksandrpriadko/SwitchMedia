@@ -16,12 +16,9 @@ public interface IFragHomeView {
      */
     void loadingStarted();
 
-    /**
-     * Loading failed
-     */
-    void loadingFailed();
+    void showDetailScreen();
 
-    void showHideDetailScreen(boolean show);
+    void hideDetailScreen();
 
     void setDetailScreenTitle(String title);
 

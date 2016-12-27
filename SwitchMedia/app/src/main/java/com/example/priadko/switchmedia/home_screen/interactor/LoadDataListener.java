@@ -15,9 +15,4 @@ public interface LoadDataListener {
      * Data loaded
      */
     void loaded(String[][] data);
-
-    /**
-     * Loading failed
-     */
-    void loadingDataFailed();
 }

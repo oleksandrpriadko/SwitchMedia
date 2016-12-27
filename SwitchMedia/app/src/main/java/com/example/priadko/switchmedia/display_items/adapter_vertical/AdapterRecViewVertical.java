@@ -1,4 +1,4 @@
-package com.example.priadko.switchmedia.display_items.adapter_main;
+package com.example.priadko.switchmedia.display_items.adapter_vertical;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -11,48 +11,50 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.priadko.switchmedia.R;
-import com.example.priadko.switchmedia.display_items.adapter_inner.AdapterRecViewInner;
-import com.example.priadko.switchmedia.display_items.adapter_main.presenter.HolderMainPresenter;
+import com.example.priadko.switchmedia.display_items.adapter_horizontal.AdapterRecViewHorizontal;
+import com.example.priadko.switchmedia.display_items.adapter_vertical.presenter.HolderVerticalPresenterImpl;
+import com.example.priadko.switchmedia.display_items.adapter_vertical.presenter.IHolderVerticalPresenter;
 import com.example.priadko.switchmedia.utils.recycler_view.ItemDecorLinHorizontal;
+
+import static com.example.priadko.switchmedia.Constants.SECTION_COUNT;
 
 /**
  * SwitchMedia
  * Oleksandr Priadko
  */
 
-public class AdapterRecViewMain extends RecyclerView.Adapter<AdapterRecViewMain.HolderMain> {
-    private final static int SECTIONS_COUNT = 4;
+public class AdapterRecViewVertical extends RecyclerView.Adapter<AdapterRecViewVertical.HolderVertical> {
 
     private String[][] arrAll;
     private LayoutInflater inflater;
-    private AdapterRecViewInner.ItemListener itemListener;
+    private AdapterRecViewHorizontal.ItemListener itemListener;
 
-    public AdapterRecViewMain(@NonNull String[][] arrAll,
-                              @NonNull AdapterRecViewInner.ItemListener itemListener) {
+    public AdapterRecViewVertical(@NonNull String[][] arrAll,
+                                  @NonNull AdapterRecViewHorizontal.ItemListener itemListener) {
         this.arrAll = arrAll;
         this.itemListener = itemListener;
     }
 
     @Override
-    public HolderMain onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HolderVertical onCreateViewHolder(ViewGroup parent, int viewType) {
         if (inflater == null) {
             inflater = LayoutInflater.from(parent.getContext());
         }
-        return new HolderMain(inflater.inflate(R.layout.item, parent, false));
+        return new HolderVertical(inflater.inflate(R.layout.item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(HolderMain holder, int position) {
+    public void onBindViewHolder(HolderVertical holder, int position) {
         holder.bind(arrAll);
     }
 
     @Override
     public int getItemCount() {
-        return arrAll != null && arrAll.length > SECTIONS_COUNT - 1 ? SECTIONS_COUNT : 0;
+        return arrAll != null && arrAll.length > SECTION_COUNT - 1 ? SECTION_COUNT : 0;
     }
 
     public void setData(@NonNull String[][] data,
-                        @NonNull AdapterRecViewInner.ItemListener itemListener) {
+                        @NonNull AdapterRecViewHorizontal.ItemListener itemListener) {
         arrAll = data;
         this.itemListener = itemListener;
         notifyDataSetChanged();
@@ -61,17 +63,17 @@ public class AdapterRecViewMain extends RecyclerView.Adapter<AdapterRecViewMain.
     //////////////////////////////////////////////////////////////////////////////////////////////
     //  VIEW HOLDER
     //////////////////////////////////////////////////////////////////////////////////////////////
-    class HolderMain extends RecyclerView.ViewHolder implements IHolderMainView {
+    class HolderVertical extends RecyclerView.ViewHolder implements IHolderVerticalView {
         private RecyclerView recyclerView;
-        private AdapterRecViewInner adapterRecViewInner;
+        private AdapterRecViewHorizontal adapterRecViewHorizontal;
         private TextView section;
-        private HolderMainPresenter presenterHolder;
+        private IHolderVerticalPresenter presenterHolder;
 
-        HolderMain(View itemView) {
+        HolderVertical(View itemView) {
             super(itemView);
             initRecView();
             section = ((TextView) itemView.findViewById(R.id.textView_section));
-            presenterHolder = new HolderMainPresenter();
+            presenterHolder = new HolderVerticalPresenterImpl();
         }
 
         private void bind(String[][] data) {
@@ -91,11 +93,11 @@ public class AdapterRecViewMain extends RecyclerView.Adapter<AdapterRecViewMain.
 
         @Override
         public void updateRecyclerView(Pair<String[][], Boolean> data) {
-            if (adapterRecViewInner == null) {
-                adapterRecViewInner = new AdapterRecViewInner(itemListener);
+            if (adapterRecViewHorizontal == null) {
+                adapterRecViewHorizontal = new AdapterRecViewHorizontal(itemListener);
             }
-            recyclerView.setAdapter(adapterRecViewInner);
-            adapterRecViewInner.setData(data.first, data.second);
+            recyclerView.setAdapter(adapterRecViewHorizontal);
+            adapterRecViewHorizontal.setData(data.first, data.second);
         }
 
         @Override

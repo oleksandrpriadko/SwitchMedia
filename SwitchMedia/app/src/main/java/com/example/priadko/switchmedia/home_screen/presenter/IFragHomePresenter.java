@@ -1,20 +1,21 @@
 package com.example.priadko.switchmedia.home_screen.presenter;
 
+import com.example.priadko.switchmedia.home_screen.IFragHomeView;
+
 /**
  * SwitchMedia
  * Oleksandr Priadko
  */
 
-interface IFragHomePresenter {
-    /**
-     * Try load data
-     */
+public interface IFragHomePresenter {
+
     void loadData();
 
-    /**
-     * ItemClicked
-     */
     void itemClicked(String title, String url);
 
     void clickedOkDetailScreen();
+
+    void bind(IFragHomeView view);
+
+    void unBind();
 }
