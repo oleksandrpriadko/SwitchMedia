@@ -1,8 +1,11 @@
 package com.example.priadko.switchmedia.home_screen;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -37,6 +40,16 @@ public class FragHome extends FragBaseAbstract implements IFragHomeView {
     //  INIT
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        if (presenter == null) {
+            presenter = new FragHomePresenterImpl();
+            Log.i(getFragmentTag(), "presenter created");
+        }
+        super.onCreate(savedInstanceState);
+    }
+
     /**
      * @return id of rootLayout
      */
@@ -57,7 +70,6 @@ public class FragHome extends FragBaseAbstract implements IFragHomeView {
         initRecView(rootView);
         initPicasso();
         initDetails(rootView);
-        presenter = new FragHomePresenterImpl();
     }
 
     private void initRefresh(View rootView) {
@@ -111,13 +123,15 @@ public class FragHome extends FragBaseAbstract implements IFragHomeView {
     @Override
     public void onResume() {
         super.onResume();
-        presenter.bind(this);
+        presenter.bindView(this);
+        presenter.loadData();
     }
 
     @Override
-    public void onStop() {
-        presenter.unBind();
-        super.onStop();
+    public void onPause() {
+        Log.i(getFragmentTag(), "onPause");
+        presenter.unBindView();
+        super.onPause();
     }
 
     private void showLoading(boolean show) {

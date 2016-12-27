@@ -50,7 +50,8 @@ public class AdapterRecViewVertical extends RecyclerView.Adapter<AdapterRecViewV
 
     @Override
     public int getItemCount() {
-        return arrAll != null && arrAll.length > SECTION_COUNT - 1 ? SECTION_COUNT : 0;
+        //if count of sections > length of 2d array ? 0 : ok
+        return arrAll != null && arrAll.length > (SECTION_COUNT - 1) ? SECTION_COUNT : 0;
     }
 
     public void setData(@NonNull String[][] data,

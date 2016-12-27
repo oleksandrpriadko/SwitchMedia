@@ -41,9 +41,11 @@ public class ItemDecorLinHorizontal extends RecyclerView.ItemDecoration {
         outRect.top = top;
         outRect.bottom = bottom;
 
-        if (firstItemSpace) {
-            outRect.left = left;
-        } else if (parent.getChildAdapterPosition(view) != 0) {
+        if (parent.getChildAdapterPosition(view) == 0) {
+            if (firstItemSpace){
+                outRect.left = left;
+            }
+        } else {
             outRect.left = left;
         }
 

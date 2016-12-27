@@ -6,7 +6,9 @@ import android.util.Log;
 import com.example.priadko.switchmedia.home_screen.interactor.retrofit_model.Api;
 import com.example.priadko.switchmedia.home_screen.interactor.retrofit_model.PatternItemModel;
 import com.example.priadko.switchmedia.home_screen.interactor.retrofit_model.PatternModel;
+import com.google.common.cache.Cache;
 
+import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -17,6 +19,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
+import static com.example.priadko.switchmedia.Constants.CACHE_2D_DATA_KEY;
 import static com.example.priadko.switchmedia.Constants.INDEX_TITLE;
 import static com.example.priadko.switchmedia.Constants.INDEX_URL;
 import static com.example.priadko.switchmedia.Constants.INNER_ITEM_COUNT;
@@ -25,6 +28,7 @@ import static com.example.priadko.switchmedia.Constants.ITEM_COUNT;
 /**
  * SwitchMedia
  * Oleksandr Priadko
+ *
  */
 
 class ExecutorHandler extends AsyncTask<Void, Void, String[][]> {
@@ -32,14 +36,16 @@ class ExecutorHandler extends AsyncTask<Void, Void, String[][]> {
     private static final String BASE_URL = "http://www.colourlovers.com/api/patterns/";
     private static final String TAG = "ExecutorAsync";
     // in millisecond
-    private static final int TERMINATION_PERIOD = 500;
+    private static final int TERMINATION_PERIOD_MILLIS = 500;
 
     private LoadDataListener listener;
     private ExecutorService pool;
+    private Cache<String, String[][]> cache;
     private Api apiService;
 
-    ExecutorHandler(LoadDataListener listener) {
+    ExecutorHandler(LoadDataListener listener, Cache<String, String[][]> cache) {
         this.listener = listener;
+        this.cache = cache;
         intiRetrofit();
     }
 
@@ -64,9 +70,8 @@ class ExecutorHandler extends AsyncTask<Void, Void, String[][]> {
     }
 
     @Override
-    protected String[][] doInBackground(Void... voids) {
-        //creates new data.
-        // as request to colorlovers.com always returns random item - no sense for caching responses
+    protected final String[][] doInBackground(Void... voids) {
+        // if we are here - it is means that cache is expired or empty
         String[][] data = new String[ITEM_COUNT][INNER_ITEM_COUNT];
         pool = Executors.newFixedThreadPool(data.length);
         //execute runnable in ExecutorService
@@ -76,13 +81,15 @@ class ExecutorHandler extends AsyncTask<Void, Void, String[][]> {
         Log.i(TAG, "started");
         pool.shutdown();
         //check if all runnable is finished
-        //NOTE - do not move from AsyncTask's background. Blocks UI thread
+        //NOTE - do not move from AsyncTask's background. Otherwise, Blocks UI thread
         while (!pool.isTerminated()) {
             try {
-                if (!pool.awaitTermination(TERMINATION_PERIOD, TimeUnit.MILLISECONDS)) {
+                if (!pool.awaitTermination(TERMINATION_PERIOD_MILLIS, TimeUnit.MILLISECONDS)) {
                     Log.i(TAG, "processing");
                 }
-            } catch (InterruptedException ignore) {}
+            } catch (InterruptedException ignore) {
+                Thread.currentThread().interrupt();
+            }
         }
         //return filled array to onPostExecute
         return data;
@@ -91,6 +98,10 @@ class ExecutorHandler extends AsyncTask<Void, Void, String[][]> {
     @Override
     protected void onPostExecute(String[][] data) {
         super.onPostExecute(data);
+        if (!isDataEmpty(data)) {
+            cache.put(CACHE_2D_DATA_KEY, data);
+            Log.i("ExecutorAsync", "saved to cache");
+        }
         listener.loaded(data);
         Log.i(TAG, "done");
     }
@@ -106,8 +117,14 @@ class ExecutorHandler extends AsyncTask<Void, Void, String[][]> {
         Log.i(TAG, pool.isTerminated() + " isTerminated");
     }
 
+    private boolean isDataEmpty(String[][] data) {
+        String[][] empty = new String[ITEM_COUNT][INNER_ITEM_COUNT];
+        return Arrays.deepEquals(data, empty);
+    }
+
+
     /**
-     * Performs request to colorlovers
+     * Performs request to colorlovers.com
      */
     private class SingleRequest implements Runnable {
         private String[][] data;

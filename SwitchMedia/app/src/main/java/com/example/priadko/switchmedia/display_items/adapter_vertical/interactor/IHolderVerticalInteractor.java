@@ -5,7 +5,7 @@ package com.example.priadko.switchmedia.display_items.adapter_vertical.interacto
  * Oleksandr Priadko
  */
 
-interface IHolderVerticalInteractor {
+public interface IHolderVerticalInteractor {
     int VIEW_TYPE_CHANNELS = 0;
     int VIEW_TYPE_CONT_WATCHING = 1;
     int VIEW_TYPE_HIGHLIGHTS = 2;

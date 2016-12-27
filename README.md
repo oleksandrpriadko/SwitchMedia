@@ -8,7 +8,7 @@ SwitchMedia. Android Application Technical Test Carousels
 * Tablet form factor
 * Phone form factor
 * Carousel functionality. Vertical RecyclerView (all available screen size), which consists of child RecyclerViews of horizontal orientation. All horizontal rows scroll independently.
-* Async load and show a 2D data array of simple title/image elements
+* Async load and show a 2D data array of simple title/image elements, array caching(expiration time - only 10 seconds as we receive random data from server, can be increased).
 * Splash screens disappears when all initial data loaded (data preloading)
 * Titles and images load async. Images caching(memory, disk). Green inidicator in top left corner - loaded from memory, red - from disk, blue - from network.
 * Clicking on item displays semi-transparent overlay of the title/image.

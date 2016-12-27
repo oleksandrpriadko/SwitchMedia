@@ -5,7 +5,7 @@ package com.example.priadko.switchmedia.home_screen.interactor;
  * Oleksandr Priadko
  */
 
-interface IFragHomeInteractor {
+public interface IFragHomeInteractor {
 
     /**
      * Load data

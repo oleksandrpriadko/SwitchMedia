@@ -15,7 +15,7 @@ public interface IFragHomePresenter {
 
     void clickedOkDetailScreen();
 
-    void bind(IFragHomeView view);
+    void bindView(IFragHomeView view);
 
-    void unBind();
+    void unBindView();
 }

@@ -1,8 +1,13 @@
 package com.example.priadko.switchmedia.home_screen.presenter;
 
+import android.util.Log;
+
 import com.example.priadko.switchmedia.home_screen.IFragHomeView;
 import com.example.priadko.switchmedia.home_screen.interactor.FragHomeInteractorImpl;
+import com.example.priadko.switchmedia.home_screen.interactor.IFragHomeInteractor;
 import com.example.priadko.switchmedia.home_screen.interactor.LoadDataListener;
+
+import java.lang.ref.WeakReference;
 
 /**
  * SwitchMedia
@@ -11,29 +16,24 @@ import com.example.priadko.switchmedia.home_screen.interactor.LoadDataListener;
 
 public class FragHomePresenterImpl implements IFragHomePresenter, LoadDataListener {
 
-    private FragHomeInteractorImpl interactor;
-    private IFragHomeView view;
+    private IFragHomeInteractor interactor;
+    private WeakReference<IFragHomeView> view;
 
     public FragHomePresenterImpl() {
         interactor = new FragHomeInteractorImpl();
     }
 
     @Override
-    public void bind(IFragHomeView view) {
-        this.view = view;
+    public void bindView(IFragHomeView view) {
+        this.view = new WeakReference<>(view);
         if (interactor == null) {
             interactor = new FragHomeInteractorImpl();
         }
-        loadData();
     }
 
     @Override
-    public void unBind() {
+    public void unBindView() {
         view = null;
-        if (interactor != null) {
-            interactor.shutDown();
-            interactor = null;
-        }
     }
 
     @Override
@@ -43,14 +43,18 @@ public class FragHomePresenterImpl implements IFragHomePresenter, LoadDataListen
 
     @Override
     public void itemClicked(String title, String url) {
-        view.showDetailScreen();
-        view.setDetailScreenTitle(title);
-        view.setDetailScreenImage(url);
+        if (view.get() != null) {
+            view.get().showDetailScreen();
+            view.get().setDetailScreenTitle(title);
+            view.get().setDetailScreenImage(url);
+        }
     }
 
     @Override
     public void clickedOkDetailScreen() {
-        view.hideDetailScreen();
+        if (view.get() != null) {
+            view.get().hideDetailScreen();
+        }
     }
 
     /**
@@ -58,7 +62,9 @@ public class FragHomePresenterImpl implements IFragHomePresenter, LoadDataListen
      */
     @Override
     public void loadingStarted() {
-        view.loadingStarted();
+        if (view.get() != null) {
+            view.get().loadingStarted();
+        }
     }
 
     /**
@@ -66,6 +72,12 @@ public class FragHomePresenterImpl implements IFragHomePresenter, LoadDataListen
      */
     @Override
     public void loaded(String[][] data) {
-        view.dataLoaded(data);
+        if (view.get() != null) view.get().dataLoaded(data);
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        Log.i("Presenter", "finalized");
     }
 }

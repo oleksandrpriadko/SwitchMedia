@@ -6,6 +6,7 @@ import android.util.Pair;
 import com.example.priadko.switchmedia.display_items.adapter_vertical.IHolderVerticalView;
 import com.example.priadko.switchmedia.display_items.adapter_vertical.interactor.HolderVerticalInteractorImpl;
 import com.example.priadko.switchmedia.display_items.adapter_vertical.interactor.IDataPreparedVertical;
+import com.example.priadko.switchmedia.display_items.adapter_vertical.interactor.IHolderVerticalInteractor;
 
 /**
  * SwitchMedia
@@ -14,7 +15,7 @@ import com.example.priadko.switchmedia.display_items.adapter_vertical.interactor
 
 public class HolderVerticalPresenterImpl implements IHolderVerticalPresenter, IDataPreparedVertical {
     private IHolderVerticalView view;
-    private HolderVerticalInteractorImpl interactor;
+    private IHolderVerticalInteractor interactor;
 
     public HolderVerticalPresenterImpl() {
         interactor = new HolderVerticalInteractorImpl();
