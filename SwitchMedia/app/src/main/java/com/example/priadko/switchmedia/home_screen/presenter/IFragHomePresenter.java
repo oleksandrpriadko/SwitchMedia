@@ -18,4 +18,6 @@ public interface IFragHomePresenter {
     void bindView(IFragHomeView view);
 
     void unBindView();
+
+    boolean isViewBind();
 }

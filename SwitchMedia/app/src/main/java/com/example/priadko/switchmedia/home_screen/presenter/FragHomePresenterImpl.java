@@ -37,13 +37,18 @@ public class FragHomePresenterImpl implements IFragHomePresenter, LoadDataListen
     }
 
     @Override
+    public boolean isViewBind() {
+        return view != null && view.get() != null;
+    }
+
+    @Override
     public void loadData() {
         interactor.loadData(this);
     }
 
     @Override
     public void itemClicked(String title, String url) {
-        if (view.get() != null) {
+        if (isViewBind()) {
             view.get().showDetailScreen();
             view.get().setDetailScreenTitle(title);
             view.get().setDetailScreenImage(url);
@@ -52,7 +57,7 @@ public class FragHomePresenterImpl implements IFragHomePresenter, LoadDataListen
 
     @Override
     public void clickedOkDetailScreen() {
-        if (view.get() != null) {
+        if (isViewBind()) {
             view.get().hideDetailScreen();
         }
     }
@@ -62,7 +67,7 @@ public class FragHomePresenterImpl implements IFragHomePresenter, LoadDataListen
      */
     @Override
     public void loadingStarted() {
-        if (view.get() != null) {
+        if (isViewBind()) {
             view.get().loadingStarted();
         }
     }
@@ -72,7 +77,7 @@ public class FragHomePresenterImpl implements IFragHomePresenter, LoadDataListen
      */
     @Override
     public void loaded(String[][] data) {
-        if (view.get() != null) view.get().dataLoaded(data);
+        if (isViewBind()) view.get().dataLoaded(data);
     }
 
     @Override
