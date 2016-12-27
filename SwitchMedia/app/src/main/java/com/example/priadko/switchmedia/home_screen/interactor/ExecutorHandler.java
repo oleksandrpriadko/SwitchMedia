@@ -122,7 +122,6 @@ class ExecutorHandler extends AsyncTask<Void, Void, String[][]> {
         return Arrays.deepEquals(data, empty);
     }
 
-
     /**
      * Performs request to colorlovers.com
      */

@@ -19,19 +19,17 @@ public class FragHomeInteractorImpl implements IFragHomeInteractor {
     private static final int CACHE_SIZE_MB = 10;
     private static final int CACHE_EXPIRATION_SECONDS = 10;
 
-    private static Cache<String, String[][]> dataCache;
+    private final static Cache<String, String[][]> dataCache;
     // ExecutorHandler Extends AsyncTask. Needed as
     // pool.awaitTermination(TERMINATION_PERIOD, TimeUnit.MILLISECONDS)
     // blocks thread where it was started.
     private ExecutorHandler executorHandler;
 
-    public FragHomeInteractorImpl() {
-        if (dataCache == null) {
-            dataCache = CacheBuilder.newBuilder()
-                    .maximumSize(CACHE_SIZE_MB)
-                    .expireAfterWrite(CACHE_EXPIRATION_SECONDS, TimeUnit.SECONDS)
-                    .build();
-        }
+    static {
+        dataCache = CacheBuilder.newBuilder()
+                .maximumSize(CACHE_SIZE_MB)
+                .expireAfterWrite(CACHE_EXPIRATION_SECONDS, TimeUnit.SECONDS)
+                .build();
     }
 
     @Override
