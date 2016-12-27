@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.example.priadko.switchmedia.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.Random;
+
 import static com.example.priadko.switchmedia.Constants.INDEX_TITLE;
 import static com.example.priadko.switchmedia.Constants.INDEX_URL;
 
@@ -25,6 +27,7 @@ public class AdapterRecViewHorizontal extends RecyclerView.Adapter<AdapterRecVie
     private LayoutInflater inflater;
     private ItemListener itemListener;
     private boolean forChannel = false;
+    private int count;
 
     public AdapterRecViewHorizontal(@NonNull ItemListener itemListener) {
         this.itemListener = itemListener;
@@ -50,12 +53,14 @@ public class AdapterRecViewHorizontal extends RecyclerView.Adapter<AdapterRecVie
 
     @Override
     public int getItemCount() {
-        return data != null ? data.length : 0;
+        return data != null ? count : 0;
     }
 
     public void setData(String[][] data, boolean forChannel) {
         this.data = data;
         this.forChannel = forChannel;
+        Random r = new Random();
+        count = r.nextInt(data.length - 1) + 1;
         notifyDataSetChanged();
     }
 

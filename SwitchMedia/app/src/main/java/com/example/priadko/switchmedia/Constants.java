@@ -9,9 +9,9 @@ package com.example.priadko.switchmedia;
  */
 public class Constants {
     //count of items. count of items == count of requests to colorlovers.com
-    public final static int ITEM_COUNT = 40;
+    public final static int ITEM_COUNT = 250;
     //count of section in vertical RecyclerView
-    public final static int SECTION_COUNT = 4;
+    public final static int SECTION_COUNT = 12;
     // size of inner array in 2d array(for title and imageUrl)
     public static final int INNER_ITEM_COUNT = 2;
     //index of title in 2d array
