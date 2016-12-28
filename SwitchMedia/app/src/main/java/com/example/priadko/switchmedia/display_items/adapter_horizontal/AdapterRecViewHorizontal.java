@@ -53,12 +53,20 @@ public class AdapterRecViewHorizontal extends RecyclerView.Adapter<AdapterRecVie
 
     @Override
     public int getItemCount() {
+        // as was asked by Trevor - simple randomness added. I know that count variable <= data.length
+        // If you would like to see intelligent randomness - ping me and
+        // I will do it. If you want to delete randomness - remove variable "count" and Random in
+        // AdapterRecViewHorizontal.setData. And change code below to data != null ? data.length : 0
         return data != null ? count : 0;
     }
 
     public void setData(String[][] data, boolean forChannel) {
         this.data = data;
         this.forChannel = forChannel;
+        // as was asked by Trevor - simple randomness added. I know that code below does not use all
+        // items from passed 2d array. If you would like to see intelligent randomness - ping me and
+        // I will do it. If you want to delete randomness - remove variable "count" and Random,
+        // also update AdapterRecViewHorizontal.getItemCount
         Random r = new Random();
         count = r.nextInt(data.length - 1) + 1;
         notifyDataSetChanged();
