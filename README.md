@@ -14,7 +14,6 @@ SwitchMedia. Android Application Technical Test Carousels
 * Titles and images(by Picasso) load async. Images caching(memory, disk). Green inidicator in top left corner - loaded from memory, red - from disk, blue - from network. If you would like to see how I work with LRU cache and disk cache - contact me.
 * Click on item displays semi-transparent overlay of the title/image.
 * Android binary (APK) compiled in "release" configuration is in root folder.
-* "Android Application Test document" is  in root folder.
 
 #Note! 
 * compile 'com.android.support:appcompat-v7:25.0.1' and compile 'com.android.support:design:25.0.1' used for support MaterialDesign on platforms < v21.
