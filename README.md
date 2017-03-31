@@ -20,3 +20,12 @@ SwitchMedia. Android Application Technical Test Carousels
 * If you would like to see usage of additional libraries - contact me and I will use them.
 * If you would like to see different behaviour/appearance of UI elements - contact me and I will implement it.
 * Tested on Nexus 5(API 24), Nexus 6(API 25), emulator API 25(Nexus 4, Nexus 6P, Nexus 5X, Nexus Pixel C, Pixel, Pixel XL, Nexus 9, Nexus 10), Nexus 5((API 16).
+
+* Main Screen
+![Alt text](https://cloud.githubusercontent.com/assets/9527746/24550673/d6a40626-1627-11e7-8d9b-98279b07c674.png)
+
+* Tab selected
+![Alt text](https://cloud.githubusercontent.com/assets/9527746/24550679/d8ac302e-1627-11e7-99d3-4e231c3fcac9.png)
+
+* Item selected
+![Alt text](https://cloud.githubusercontent.com/assets/9527746/24550680/da2be9bc-1627-11e7-9522-e6f4f9deb497.png)
